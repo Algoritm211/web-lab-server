@@ -9,7 +9,7 @@ const userRouter  = require('./routes/user.routes')
 const app = express()
 app.use(cors())
 
-const PORT = config.get('PORT')
+const PORT = process.env.PORT || config.get('PORT')
 app.use(express.json())
 
 app.use('/api/user/', userRouter)
