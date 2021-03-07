@@ -1,0 +1,4 @@
+{
+  "PORT": 5000,
+  "dbURL": "mongodb+srv://algoritm211:aeg0806aeg@cluster0.juxlp.mongodb.net/web-lab-5?retryWrites=true&w=majority"
+}
