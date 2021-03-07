@@ -2,6 +2,7 @@ const express = require('express')
 const cors = require("cors");
 const mongoose = require('mongoose')
 const config = require('config')
+const userRouter  = require('./routes/user.routes')
 
 
 
@@ -9,7 +10,9 @@ const app = express()
 app.use(cors())
 
 const PORT = config.get('PORT')
+app.use(express.json())
 
+app.use('/api/user/', userRouter)
 
 
 const START = async () => {
@@ -28,3 +31,4 @@ const START = async () => {
   }
 }
 
+START()
