@@ -1,4 +1,10 @@
 {
   "PORT": 5000,
-  "dbURL": "mongodb+srv://algoritm211:aeg0806aeg@cluster0.juxlp.mongodb.net/web-lab-5?retryWrites=true&w=majority"
+  "dbURL": "mongodb+srv://algoritm211:aeg0806aeg@cluster0.juxlp.mongodb.net/web-lab-5?retryWrites=true&w=majority",
+  "pgUser": "yidqaohgaauyxo",
+  "pgHost": "ec2-54-220-35-19.eu-west-1.compute.amazonaws.com",
+  "pgDB": "d9cef069vgc0p8",
+  "pgPassword": "775dca79a4fbcd2916cecf9e2bf3ef37bc17c01918e599223284776ab5e2603f",
+  "pgPort": 5432,
+  "connectionString": "postgres://yidqaohgaauyxo:775dca79a4fbcd2916cecf9e2bf3ef37bc17c01918e599223284776ab5e2603f@ec2-54-220-35-19.eu-west-1.compute.amazonaws.com:5432/d9cef069vgc0p8?ssl=require"
 }

@@ -1,4 +1,5 @@
 const User = require('../models/User')
+const client = require('../models/query')
 
 
 class UserController {
@@ -7,11 +8,40 @@ class UserController {
 
     try {
       const newUserData = request.body
+      newUserData.id = Date.now()
+      // const user = new User({...newUserData})
+      // await user.save()
 
-      const user = new User({...newUserData})
-      await user.save()
+      client.query(`INSERT INTO users (
+        id,
+        firstName,
+        lastName,
+        email,
+        phone,
+        linkTwitter,
+        linkFacebook,
+        linkLinkedin,
+        linkTelegram,
+        linkVK
+         ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)`, [
+        newUserData.id,
+        newUserData.firstName,
+        newUserData.lastName,
+        newUserData.email,
+        newUserData.phone,
+        newUserData.linkTwitter || 'no info',
+        newUserData.linkFacebook || 'no info',
+        newUserData.linkLinkedin || 'no info',
+        newUserData.linkTelegram || 'no info',
+        newUserData.linkVK || 'no info',
+        ], (error, results) => {
+        if (error) {
+          throw error
+        }
+        response.status(200).json(newUserData)
+      })
 
-      return response.status(200).json(user)
+      // return response.status(200).json(user)
     } catch (error) {
       console.log(error)
       return response.status(500).json({message: 'Error during creating user'})
@@ -22,9 +52,13 @@ class UserController {
   async getAllUsers(request, response) {
     try {
 
-      const users = await User.find({})
-
-      return response.status(200).json(users)
+      client.query('SELECT * FROM users', (error, results) => {
+        if (error) {
+          throw error
+        }
+        response.status(200).json(results.rows)
+      })
+      // return response.status(200).json(users)
     } catch (error) {
       console.log(error)
       return response.status(500).json({message: 'Can not get all users'})
@@ -34,12 +68,13 @@ class UserController {
   async deleteUser(request, response) {
     try {
       const {userId} = request.query
-      const user = await User.findOne({_id: userId})
-      if (!user) {
-        return response.status(404).json({message: 'User was not found'})
-      }
-      await user.remove()
-      return response.status(200).json({user: user, message: 'User was deleted successfully'})
+      client.query('DELETE FROM users WHERE id = $1', [userId], (error, results) => {
+        if (error) {
+          throw error
+        }
+        response.status(200).json({ message: 'User was deleted successfully'})
+      })
+      // return response.status(200).json({ message: 'User was deleted successfully'})
     } catch (error) {
       console.log(error)
       return response.status(500).json({message: 'User delete Error'})
