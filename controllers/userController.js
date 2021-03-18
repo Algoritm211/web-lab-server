@@ -65,6 +65,34 @@ class UserController {
     }
   }
 
+  async getTopTenUsers(request, response) {
+    try {
+      client.query('SELECT * FROM Users ORDER BY id LIMIT 10', (error, results) => {
+        if (error) {
+          throw error
+        }
+        response.status(200).json(results.rows)
+      })
+    } catch (error) {
+      console.log(error)
+      return response.status(500).json({message: 'Can not get first 10 users'})
+    }
+  }
+
+  async removeAllUsers(request, response) {
+    try {
+      client.query('TRUNCATE Users', (error, results) => {
+        if (error) {
+          throw error
+        }
+        response.status(200).json({ message: 'All users was deleted successfully'})
+      })
+    } catch (error) {
+      console.log(error)
+      return response.status(500).json({message: 'Can not remove all users'})
+    }
+  }
+
   async deleteUser(request, response) {
     try {
       const {userId} = request.query
