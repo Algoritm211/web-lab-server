@@ -79,6 +79,20 @@ class UserController {
     }
   }
 
+  async getUserLength(request, response) {
+    try {
+      client.query('SELECT count(*) FROM Users', (error, results) => {
+        if (error) {
+          throw error
+        }
+        response.status(200).json(results.rows[0])
+      })
+    } catch (error) {
+      console.log(error)
+      return response.status(500).json({message: 'Can not get first 10 users'})
+    }
+  }
+
   async removeAllUsers(request, response) {
     try {
       client.query('TRUNCATE Users', (error, results) => {
